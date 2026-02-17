@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Joyeux anniversaire 🎉</title>
+  <!-- Aucune métadonnée auteur volontairement -->
+  <style>
+    /* ============================================================
+       VARIABLES & RESET
+    ============================================================ */
+    :root {
+      --bg:       #f9f6ff;
+      --card:     #ffffff;
+      --primary:  #7c3aed;
+      --accent:   #a78bfa;
+      --soft:     #ede9fe;
+      --text:     #1e1b2e;
+      --muted:    #6b7280;
+      --success:  #059669;
+      --error:    #dc2626;
+      --radius:   20px;
+      --shadow:   0 8px 40px rgba(124,58,237,0.13);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ============================================================
+       FOND ANIMÉ
+    ============================================================ */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(ellipse 70% 50% at 15% 10%, #ede9fe 0%, transparent 60%),
+        radial-gradient(ellipse 55% 45% at 88% 20%, #fce7f3 0%, transparent 55%),
+        radial-gradient(ellipse 60% 40% at 50% 95%, #ddd6fe 0%, transparent 60%),
+        linear-gradient(160deg, #f9f6ff 0%, #fdf4ff 100%);
+      animation: bgPulse 10s ease-in-out infinite alternate;
+    }
+
+    @keyframes bgPulse {
+      0%   { filter: hue-rotate(0deg); }
+      100% { filter: hue-rotate(12deg); }
+    }
+
+    /* ============================================================
+       CONTENEUR
+    ============================================================ */
+    .wrap {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 0 20px 60px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* ============================================================
+       SECTIONS (pages)
+    ============================================================ */
+    .section {
+      display: none;
+      animation: fadeUp 0.55s cubic-bezier(.4,0,.2,1) both;
+    }
+    .section.active { display: block; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ============================================================
+       CARTE
+    ============================================================ */
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 40px 36px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--accent), #ec4899, var(--accent), var(--primary));
+      background-size: 300% 100%;
+      animation: shimmer 3s linear infinite;
+    }
+
+    @keyframes shimmer {
+      from { background-position: 0% 0%; }
+      to   { background-position: 300% 0%; }
+    }
+
+    /* ============================================================
+       SECTION 1 — ACCUEIL
+    ============================================================ */
+    .hero-emoji {
+      font-size: 3.2rem;
+      text-align: center;
+      display: block;
+      margin-bottom: 20px;
+      animation: bounce 2s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-8px); }
+    }
+
+    .hero-title {
+      font-size: clamp(1.9rem, 6vw, 2.6rem);
+      font-weight: 700;
+      text-align: center;
+      color: var(--primary);
+      margin-bottom: 24px;
+      letter-spacing: -0.01em;
+    }
+
+    .hero-msg {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--muted);
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .hero-msg strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* ============================================================
+       BOUTON
+    ============================================================ */
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 15px 28px;
+      background: linear-gradient(135deg, var(--primary), #6d28d9);
+      color: white;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 60px;
+      cursor: pointer;
+      letter-spacing: 0.03em;
+      transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), box-shadow 0.25s;
+      box-shadow: 0 6px 24px rgba(124,58,237,0.35);
+    }
+
+    .btn:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 12px 35px rgba(124,58,237,0.45);
+    }
+
+    .btn:active { transform: scale(0.97); }
+
+    /* ============================================================
+       SECTION 2 — JEU
+    ============================================================ */
+    .game-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .game-header h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+
+    .game-header p {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    /* Barre de progression */
+    .progress-bar-wrap {
+      background: var(--soft);
+      border-radius: 20px;
+      height: 8px;
+      margin-bottom: 30px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: 20px;
+      transition: width 0.5s cubic-bezier(.4,0,.2,1);
+    }
+
+    .step-counter {
+      text-align: center;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    /* Question */
+    .question-box {
+      display: none;
+      animation: fadeUp 0.45s ease both;
+    }
+    .question-box.active { display: block; }
+
+    .question-text {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .input-wrap { position: relative; margin-bottom: 14px; }
+
+    .input-wrap input {
+      width: 100%;
+      padding: 14px 18px;
+      background: var(--soft);
+      border: 2px solid transparent;
+      border-radius: 14px;
+      font-size: 1rem;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.25s, background 0.25s;
+    }
+
+    .input-wrap input:focus {
+      border-color: var(--accent);
+      background: #faf8ff;
+    }
+
+    .input-wrap input.shake {
+      animation: shake 0.4s ease;
+      border-color: var(--error) !important;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%       { transform: translateX(-7px); }
+      40%       { transform: translateX(7px); }
+      60%       { transform: translateX(-5px); }
+      80%       { transform: translateX(5px); }
+    }
+
+    .feedback {
+      font-size: 0.88rem;
+      font-weight: 500;
+      text-align: center;
+      min-height: 22px;
+      margin-bottom: 10px;
+      transition: opacity 0.3s;
+    }
+
+    .feedback.error   { color: var(--error); }
+    .feedback.success { color: var(--success); }
+
+    /* Tick succès animé */
+    .tick {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: #d1fae5;
+      margin: 0 auto 18px;
+      animation: popIn 0.35s cubic-bezier(.34,1.56,.64,1);
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+
+    /* ============================================================
+       SECTION 3 — FIN / QR
+    ============================================================ */
+    .end-emoji {
+      font-size: 2.6rem;
+      text-align: center;
+      display: block;
+      margin-bottom: 18px;
+      animation: bounce 2s ease-in-out infinite;
+    }
+
+    .end-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .end-text {
+      font-size: 0.95rem;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.7;
+      margin-bottom: 30px;
+    }
+
+    .qr-wrap {
+      text-align: center;
+    }
+
+    .qr-wrap img {
+      width: 200px;
+      height: 200px;
+      border-radius: 16px;
+      object-fit: contain;
+      border: 3px solid var(--soft);
+      box-shadow: 0 8px 30px rgba(124,58,237,0.15);
+      margin-bottom: 14px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Placeholder si qr.png manquant */
+    .qr-placeholder {
+      width: 200px;
+      height: 200px;
+      border-radius: 16px;
+      background: var(--soft);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 0 auto 14px;
+      border: 2px dashed var(--accent);
+    }
+
+    .qr-placeholder span { font-size: 2.5rem; }
+    .qr-placeholder p { font-size: 0.75rem; color: var(--muted); text-align: center; }
+
+    .qr-label {
+      font-size: 0.9rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    /* Bouton rejouer */
+    .btn-ghost {
+      background: transparent;
+      color: var(--primary);
+      border: 2px solid var(--accent);
+      box-shadow: none;
+      margin-top: 18px;
+    }
+
+    .btn-ghost:hover {
+      background: var(--soft);
+      box-shadow: 0 4px 16px rgba(124,58,237,0.15);
+    }
+
+    /* ============================================================
+       CONFETTIS LÉGERS
+    ============================================================ */
+    .confetti-dot {
+      position: fixed;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 999;
+      animation: confettiFall 2.8s ease-out forwards;
+    }
+
+    @keyframes confettiFall {
+      0%   { opacity: 1; transform: translateY(-20px) rotate(0deg); }
+      100% { opacity: 0; transform: translateY(100vh) rotate(540deg); }
+    }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 420px) {
+      .card { padding: 30px 22px; }
+      .hero-title { font-size: 1.7rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- ============================================================
+       SECTION 1 — ACCUEIL
+  ============================================================ -->
+  <section class="section active" id="sec-home">
+    <div class="card">
+      <span class="hero-emoji">🎉</span>
+      <h1 class="hero-title">Joyeux anniversaire&nbsp;!</h1>
+
+      <!-- ⬇️ À MODIFIER : message d'accueil -->
+      <p class="hero-msg">
+        Hey, c'est ton jour aujourd'hui.<br><br>
+        J'espère que tu passes une <strong>super journée</strong>,
+        entourée de gens qui comptent pour toi.<br><br>
+        C'est juste un petit truc pour te dire que quelqu'un pense à toi aujourd'hui. 🙂
+      </p>
+
+      <button class="btn" onclick="goTo('sec-game')">
+        Petit jeu (si tu veux savoir de qui ça vient) 🎮
+      </button>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       SECTION 2 — JEU
+  ============================================================ -->
+  <section class="section" id="sec-game">
+    <div class="card">
+      <div class="game-header">
+        <h2>Petit jeu 🔍</h2>
+        <p>3 questions simples pour trouver l'auteur…</p>
+      </div>
+
+      <!-- Progression -->
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="progress-fill" style="width: 0%"></div>
+      </div>
+      <p class="step-counter" id="step-counter">Étape 1 / 3</p>
+
+      <!-- ──────────────────────────────
+           QUESTION 1
+      ────────────────────────────── -->
+      <div class="question-box active" id="q1">
+        <!-- ⬇️ À MODIFIER : question 1 -->
+        <p class="question-text">Quel mois vient après Juin ?</p>
+        <div class="input-wrap">
+          <input type="text" id="inp1" placeholder="Ta réponse…" autocomplete="off"
+                 onkeydown="if(event.key==='Enter') checkAnswer(1)" />
+        </div>
+        <p class="feedback" id="fb1"></p>
+        <button class="btn" onclick="checkAnswer(1)">Valider ✓</button>
+      </div>
+
+      <!-- ──────────────────────────────
+           QUESTION 2
+      ────────────────────────────── -->
+      <div class="question-box" id="q2">
+        <!-- ⬇️ À MODIFIER : question 2 -->
+        <p class="question-text">Combien de lettres dans <strong>"ANNIV"</strong>&nbsp;?</p>
+        <div class="input-wrap">
+          <input type="text" id="inp2" placeholder="Ta réponse…" autocomplete="off"
+                 onkeydown="if(event.key==='Enter') checkAnswer(2)" />
+        </div>
+        <p class="feedback" id="fb2"></p>
+        <button class="btn" onclick="checkAnswer(2)">Valider ✓</button>
+      </div>
+
+      <!-- ──────────────────────────────
+           QUESTION 3
+      ────────────────────────────── -->
+      <div class="question-box" id="q3">
+        <!-- ⬇️ À MODIFIER : question 3 -->
+        <p class="question-text">Écris le mot : <strong>sourire</strong></p>
+        <div class="input-wrap">
+          <input type="text" id="inp3" placeholder="Ta réponse…" autocomplete="off"
+                 onkeydown="if(event.key==='Enter') checkAnswer(3)" />
+        </div>
+        <p class="feedback" id="fb3"></p>
+        <button class="btn" onclick="checkAnswer(3)">Valider ✓</button>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       SECTION 3 — FIN + QR CODE
+  ============================================================ -->
+  <section class="section" id="sec-end">
+    <div class="card">
+      <span class="end-emoji">🙂</span>
+      <h2 class="end-title">Ok… tu peux savoir maintenant</h2>
+
+      <!-- ⬇️ À MODIFIER : texte final -->
+      <p class="end-text">
+        Tu as réussi ! Scanne le QR code ci-dessous<br>
+        pour découvrir de qui ça vient…
+      </p>
+
+      <!-- QR CODE — place qr.png dans le même dossier -->
+      <div class="qr-wrap">
+        <img src="qr.png" alt="QR Code"
+             onerror="this.style.display='none'; document.getElementById('qr-ph').style.display='flex';" />
+
+        <!-- Placeholder si qr.png manquant -->
+        <div class="qr-placeholder" id="qr-ph" style="display:none;">
+          <span>📷</span>
+          <p>Place ton fichier<br><strong>qr.png</strong><br>dans le même dossier</p>
+        </div>
+
+        <p class="qr-label">Scanne le QR code 📲</p>
+      </div>
+
+      <button class="btn btn-ghost" onclick="restart()">↩ Recommencer</button>
+    </div>
+  </section>
+
+</div><!-- /wrap -->
+
+
+<!-- ============================================================
+     JAVASCRIPT
+============================================================ -->
+<script>
+  /* ============================================================
+     ⚙️ RÉPONSES CORRECTES — À MODIFIER SI BESOIN
+     (tout en minuscules, la comparaison est insensible à la casse)
+  ============================================================ */
+  const ANSWERS = {
+    1: 'juillet',   // Q1 : mois après Juin
+    2: '5',          // Q2 : lettres dans ANNIV
+    3: 'sourire',    // Q3 : recopier le mot
+  };
+
+  // Étape courante
+  let currentStep = 1;
+
+  /* ============================================================
+     NAVIGATION ENTRE SECTIONS
+  ============================================================ */
+  function goTo(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  /* ============================================================
+     VÉRIFICATION DES RÉPONSES
+  ============================================================ */
+  function checkAnswer(step) {
+    const input    = document.getElementById('inp' + step);
+    const feedback = document.getElementById('fb'  + step);
+    const value    = input.value.trim().toLowerCase();
+    const correct  = ANSWERS[step];
+
+    if (!value) {
+      showFeedback(feedback, '✏️ Écris quelque chose d\'abord !', 'error');
+      return;
+    }
+
+    if (value === correct) {
+      // ✅ Bonne réponse
+      showFeedback(feedback, '✅ Bien joué !', 'success');
+      input.disabled = true;
+
+      // Confettis légers
+      spawnConfetti();
+
+      setTimeout(() => {
+        if (step < 3) {
+          currentStep = step + 1;
+          nextQuestion(step);
+        } else {
+          // Terminé !
+          setTimeout(() => {
+            spawnConfetti();
+            goTo('sec-end');
+          }, 600);
+        }
+      }, 700);
+
+    } else {
+      // ❌ Mauvaise réponse
+      showFeedback(feedback, 'Presque, réessaie 🙂', 'error');
+      input.classList.add('shake');
+      setTimeout(() => input.classList.remove('shake'), 450);
+      input.value = '';
+      input.focus();
+    }
+  }
+
+  /* ============================================================
+     PASSER À LA QUESTION SUIVANTE
+  ============================================================ */
+  function nextQuestion(doneStep) {
+    // Cacher question actuelle
+    document.getElementById('q' + doneStep).classList.remove('active');
+
+    // Mettre à jour la progression
+    const pct = (doneStep / 3) * 100;
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('step-counter').textContent = `Étape ${doneStep + 1} / 3`;
+
+    // Afficher la suivante
+    const next = document.getElementById('q' + (doneStep + 1));
+    next.classList.add('active');
+    // Focus sur l'input
+    setTimeout(() => {
+      const inp = document.getElementById('inp' + (doneStep + 1));
+      if (inp) inp.focus();
+    }, 100);
+  }
+
+  /* ============================================================
+     FEEDBACK TEXTE
+  ============================================================ */
+  function showFeedback(el, msg, type) {
+    el.textContent  = msg;
+    el.className    = 'feedback ' + type;
+  }
+
+  /* ============================================================
+     CONFETTIS LÉGERS
+  ============================================================ */
+  const CONFETTI_COLORS = ['#7c3aed','#a78bfa','#ec4899','#f59e0b','#10b981','#3b82f6'];
+
+  function spawnConfetti() {
+    for (let i = 0; i < 30; i++) {
+      setTimeout(() => {
+        const dot = document.createElement('div');
+        dot.className   = 'confetti-dot';
+        dot.style.left  = Math.random() * 100 + 'vw';
+        dot.style.top   = '-10px';
+        dot.style.background = CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)];
+        dot.style.width  = (Math.random() * 7 + 5) + 'px';
+        dot.style.height = dot.style.width;
+        dot.style.borderRadius = Math.random() > 0.4 ? '50%' : '3px';
+        dot.style.animationDelay    = (Math.random() * 0.4) + 's';
+        dot.style.animationDuration = (Math.random() * 1.5 + 2) + 's';
+        document.body.appendChild(dot);
+        setTimeout(() => dot.remove(), 3500);
+      }, i * 40);
+    }
+  }
+
+  /* ============================================================
+     RECOMMENCER
+  ============================================================ */
+  function restart() {
+    // Réinitialiser les inputs & feedbacks
+    [1, 2, 3].forEach(i => {
+      const inp = document.getElementById('inp' + i);
+      const fb  = document.getElementById('fb'  + i);
+      inp.value    = '';
+      inp.disabled = false;
+      fb.textContent = '';
+      fb.className   = 'feedback';
+      document.getElementById('q' + i).classList.remove('active');
+    });
+
+    // Réinitialiser la progression
+    currentStep = 1;
+    document.getElementById('progress-fill').style.width = '0%';
+    document.getElementById('step-counter').textContent  = 'Étape 1 / 3';
+    document.getElementById('q1').classList.add('active');
+
+    goTo('sec-home');
+  }
+</script>
+
+</body>
+</html>
